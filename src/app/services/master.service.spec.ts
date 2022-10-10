@@ -31,7 +31,7 @@ import { ValueService } from './value.service';
   it('should call "getValue" from ValueService', () => {
 
     valueServiceSpy.getValue.and.returnValue('fake value');
-    valueServiceSpy.getValue();
+    masterService.getValue();
 
     expect(valueServiceSpy.getValue).toHaveBeenCalled();
     expect(valueServiceSpy.getValue).toHaveBeenCalledTimes(1);
@@ -68,17 +68,17 @@ import { ValueService } from './value.service';
 //   //   expect(masterService.getValue()).toBe('fake from obj');
 //   // });
 
-//   it('should call to "getValue" from ValueService', () => {
-//     //Mock spy forma tradicional sin angular
-//     const valueServiceSpy: jasmine.SpyObj<ValueService> = jasmine.createSpyObj('ValueService',['getValue']);
-//     valueServiceSpy.getValue.and.returnValue('fake value');
+  // it('should call to "getValue" from ValueService', () => {
+  //   //Mock spy forma tradicional sin angular
+  //   const valueServiceSpy: jasmine.SpyObj<ValueService> = jasmine.createSpyObj('ValueService',['getValue']);
+  //   valueServiceSpy.getValue.and.returnValue('fake value');
 
-//     const masterService = new MasterService(valueServiceSpy);
+  //   const masterService = new MasterService(valueServiceSpy);
 
-//     expect(masterService.getValue()).toBe('fake value');
-//     expect(valueServiceSpy.getValue).toHaveBeenCalled();
-//     expect(valueServiceSpy.getValue).toHaveBeenCalledTimes(1);
-//   });
+  //   expect(masterService.getValue()).toBe('fake value');
+  //   expect(valueServiceSpy.getValue).toHaveBeenCalled();
+  //   expect(valueServiceSpy.getValue).toHaveBeenCalledTimes(1);
+  // });
 
 // });
 
