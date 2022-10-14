@@ -3,7 +3,7 @@ on: push
 jobs:
   unit-test:
     runs-on: ubuntu-latest
-    step:
+    steps:
       - name: Clone
         uses: actions/checkouts@v2
       - name: Node Setup
