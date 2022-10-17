@@ -1,14 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { TestBed, ComponentFixture } from "@angular/core/testing";
+import { ProductsComponent } from "./products.component";
 
-import { ProductsComponent } from './products.component';
-
-xdescribe('ProductsComponent', () => {
+fdescribe('ProductComponent', () => {
   let component: ProductsComponent;
   let fixture: ComponentFixture<ProductsComponent>;
 
-  beforeEach(async () => {
+  beforeEach( async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProductsComponent ]
+      declarations: [ ProductsComponent ],
+      imports: [HttpClientTestingModule]
     })
     .compileComponents();
 
@@ -20,4 +21,5 @@ xdescribe('ProductsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });
