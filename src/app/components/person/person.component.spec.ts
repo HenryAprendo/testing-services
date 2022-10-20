@@ -107,6 +107,25 @@ describe('Test PersonComponent', () => {
 
   });
 
+  it('should raise selected event when do click', () => {
+    const expectPerson = new Person('Lola', 'Perez', 40, 68, 1.89);
+    component.person = expectPerson;
+
+    let selectedPerson: Person | undefined;
+
+    const buttonDe: DebugElement = fixture.debugElement.query(By.css('button.btn-choose'));
+
+    component.onSelected
+      .subscribe( person => {
+        selectedPerson = person;
+      });
+
+    buttonDe.triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    expect(selectedPerson).toEqual(expectPerson);
+
+  });
 
 });
 
