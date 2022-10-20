@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed, ComponentFixture } from "@angular/core/testing";
 import { ProductsComponent } from "./products.component";
 
-fdescribe('ProductComponent', () => {
+describe('ProductComponent', () => {
   let component: ProductsComponent;
   let fixture: ComponentFixture<ProductsComponent>;
 

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Person } from '../../models/person.model';
 
 @Component({
   selector: 'app-person',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PersonComponent implements OnInit {
 
+  @Input() person: Person = new Person('','',0,0,0)
+
+  imc = '';
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  calcIMC() {
+    this.imc = this.person.calcIMC();
   }
 
 }
