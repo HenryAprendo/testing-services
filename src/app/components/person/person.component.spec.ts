@@ -1,5 +1,5 @@
 
-import { DebugElement } from "@angular/core";
+import { Component, DebugElement } from "@angular/core";
 import { ComponentFixture ,TestBed } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { Person } from "src/app/models/person.model";
@@ -128,6 +128,82 @@ describe('Test PersonComponent', () => {
   });
 
 });
+
+
+/**
+ * Pruebas aisladas a un componente:
+ * Teniendo en cuenta que PersonComponent es renderizado en el People component.
+ *
+ * 1. Creamos un componente host e implememtamos a PersonComponent
+ */
+
+@Component({
+  selector: 'app-host',
+  template: `<app-person [person]="person" (onSelected)="onSelected($event)"></app-person>`
+})
+class HostComponent {
+
+  person = new Person('Lucas','Moura', 35, 60, 1.70);
+
+  selectedPerson: Person | undefined;
+
+  constructor(){}
+
+  onSelected(person: Person){
+    this.selectedPerson = person;
+  }
+
+}
+
+describe('PersonComponent from HostComponent', () => {
+  let component: HostComponent;
+  let fixture: ComponentFixture<HostComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ HostComponent, PersonComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(HostComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should be created', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should display person name', () => {
+
+    const personExpect = component.person.name;
+
+    const elementDe: DebugElement = fixture.debugElement.query(By.css('app-person h3'));
+    const h3El = elementDe.nativeElement;
+
+    fixture.detectChanges();
+    expect(h3El.textContent).toContain(personExpect);
+
+  });
+
+
+  it('should raise selected event when clicked', () => {
+
+    const btnDe: DebugElement = fixture.debugElement.query(By.css('app-person .btn-choose'));
+
+    btnDe.triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    expect(component.selectedPerson).toEqual(component.person);
+
+  });
+
+});
+
+
+
+
+
 
 
 
