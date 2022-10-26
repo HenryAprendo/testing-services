@@ -11,6 +11,10 @@ export class ProductsComponent implements OnInit {
 
   products: Product[] = [];
 
+  limit = 10;
+  offset = 0;
+  status: 'loading' | 'success' | 'error' | 'init' = 'init';
+
   constructor(
     private productsService: ProductsService
   ) { }
@@ -20,10 +24,30 @@ export class ProductsComponent implements OnInit {
   }
 
   getAllProducts() {
-    this.productsService.getAllSimple()
-    .subscribe( data => {
-      this.products = data;
+    this.status = 'loading';
+    this.productsService.getAll(this.limit, this.offset)
+    .subscribe({
+      next: (data) => {
+        this.products = [...this.products, ...data];
+        this.offset += this.limit;
+        this.status = 'success';
+      },
+
+      error: error => {
+        setTimeout(() => {
+          this.products = [];
+          this.status = 'error';
+        }, 3000);
+      }
+
     })
   }
 
 }
+
+
+
+
+
+
+

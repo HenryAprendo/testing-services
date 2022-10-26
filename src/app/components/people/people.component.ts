@@ -8,11 +8,20 @@ import { Person } from './../../models/person.model';
 })
 export class PeopleComponent implements OnInit {
 
-  person:Person = new Person('Willian', 'Sanchez', 40, 55, 1.70);
+  people: Person[] = [
+    new Person('Willian', 'Sanchez', 40, 55, 1.70),
+    new Person('Valentina', 'Cardona', 40, 70, 1.80)
+  ];
+
+  selectedPerson: Person | null = null;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  choose(person:Person) {
+    this.selectedPerson = person;
   }
 
 }
