@@ -4,19 +4,23 @@ import { ProductComponent } from './../product/product.component';
 import { ProductsService } from './../../services/product.service';
 import { generateManyProducts } from './../../models/product.mock';
 import { of, defer } from "rxjs";
+import { ValueService } from '././../../services/value.service';
 
-fdescribe('ProductComponent', () => {
+fdescribe('ProductsComponent', () => {
   let component: ProductsComponent;
   let fixture: ComponentFixture<ProductsComponent>;
   let productServices: jasmine.SpyObj<ProductsService>;
+  let valueServices: jasmine.SpyObj<ValueService>;
 
   beforeEach( async () => {
     const productServicesSpy = jasmine.createSpyObj('ProductService', ['getAll']);
+    const valueServicesSpy = jasmine.createSpyObj('ValueService', ['getPromiseValue']);
 
     await TestBed.configureTestingModule({
       declarations: [ ProductsComponent, ProductComponent ],
       providers: [
-        {provide: ProductsService, useValue: productServicesSpy }
+        {provide: ProductsService, useValue: productServicesSpy },
+        {provide: ValueService, useValue: valueServicesSpy}
       ]
     })
     .compileComponents();
@@ -27,6 +31,8 @@ fdescribe('ProductComponent', () => {
 
     const productMock = generateManyProducts(3);
     productServices.getAll.and.returnValue(of(productMock));  //getAll es ejecutado en el ngOnInit
+
+    valueServices = TestBed.inject(ValueService) as jasmine.SpyObj<ValueService>
 
     fixture.detectChanges();  // aqui se ejecuta el ngOnInit
   });
@@ -96,6 +102,38 @@ fdescribe('ProductComponent', () => {
 
   });
 
+  describe('Test for callPromises ', () => {
+    it('should return a promises with async - await', async () => {
+
+      const mockPromise = 'test';
+
+      valueServices.getPromiseValue.and.returnValue(Promise.resolve(mockPromise));
+
+      await component.callPromise();
+      fixture.detectChanges();
+
+      expect(component.rta).toEqual(mockPromise);
+      expect(valueServices.getPromiseValue).toHaveBeenCalled();
+
+    });
+
+    it('should return a promises with fake-async', fakeAsync(() => {
+
+      const mockPromise = 'test';
+      valueServices.getPromiseValue.and.returnValue(Promise.resolve(mockPromise));
+
+      component.callPromise();
+      tick();
+
+      fixture.detectChanges();
+
+      expect(component.rta).toEqual(mockPromise);
+      expect(valueServices.getPromiseValue).toHaveBeenCalled();
+
+    }));
+
+  });
+
 });
 
 
@@ -106,4 +144,8 @@ fdescribe('ProductComponent', () => {
 
 
 
+
+function tink() {
+  throw new Error("Function not implemented.");
+}
 

@@ -83,7 +83,7 @@ import { ValueService } from './value.service';
 // });
 
 /**
- * Los moking son objetos simulados que imitan el comportamiento de un objeto real de forma controlada.
+ * Los mocking son objetos simulados que imitan el comportamiento de un objeto real de forma controlada.
  */
 
 

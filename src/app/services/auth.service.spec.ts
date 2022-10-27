@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { TokenService } from './token.service';
 import { Auth } from "../models/auth.model";
 import { environment } from "./../../environments/environment";
+import { User } from "../models/user.model";
 
 describe('AuthService', () => {
 
@@ -75,6 +76,54 @@ describe('AuthService', () => {
       const req = httpController.expectOne(url);
       expect(req.request.method).toEqual('POST');
       req.flush(mokData);
+    });
+  });
+
+  describe('Test for getProfile', () => {
+    it('should return a profile', () => {
+      const mockData: User = {
+        id: '1',
+        email: 'user@gmail.com',
+        password: 'user1',
+        name: 'henry'
+      }
+
+      authService.getProfile()
+        .subscribe( data => {
+          expect(data).toEqual(mockData);
+        });
+
+        const url = `${environment.API_URL}/api/auth/profile`;
+        const req = httpController.expectOne(url);
+        expect(req.request.method).toEqual('GET');
+        req.flush(mockData);
+
+    });
+  });
+
+
+  xdescribe('Test for loginAndGet', () => {
+    it('should return a profile', () => {
+      const mockData: User = {
+        id: '1',
+        email: 'user@gmail.com',
+        password: 'user1',
+        name: 'henry'
+      }
+
+      const email = 'token@mock.com';
+      const password = 'mytoken**';
+
+      authService.loginAndGet(email,password)
+        .subscribe( data => {
+          expect(data).toEqual(mockData);
+        });
+
+        const url = `${environment.API_URL}/api/auth/profile`;
+        const req = httpController.expectOne(url);
+        // expect(req.request.method).toEqual('GET');
+        req.flush(mockData);
+
     });
   });
 
