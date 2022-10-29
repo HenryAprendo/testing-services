@@ -5,8 +5,9 @@ import { ProductsService } from './../../services/product.service';
 import { generateManyProducts } from './../../models/product.mock';
 import { of, defer } from "rxjs";
 import { ValueService } from '././../../services/value.service';
+import { By } from "@angular/platform-browser";
 
-fdescribe('ProductsComponent', () => {
+describe('ProductsComponent', () => {
   let component: ProductsComponent;
   let fixture: ComponentFixture<ProductsComponent>;
   let productServices: jasmine.SpyObj<ProductsService>;
@@ -122,7 +123,9 @@ fdescribe('ProductsComponent', () => {
       const mockPromise = 'test';
       valueServices.getPromiseValue.and.returnValue(Promise.resolve(mockPromise));
 
-      component.callPromise();
+      const btnDe = fixture.debugElement.query(By.css('.btn-load'));
+      btnDe.triggerEventHandler('click', null);
+
       tick();
 
       fixture.detectChanges();
@@ -131,6 +134,27 @@ fdescribe('ProductsComponent', () => {
       expect(valueServices.getPromiseValue).toHaveBeenCalled();
 
     }));
+
+
+    it('should show "mock test" in <p> when button clicked', fakeAsync(
+      () => {
+        const mockData = 'mock test';
+        valueServices.getPromiseValue.and.returnValue(Promise.resolve(mockData));
+
+        const btnDe = fixture.debugElement.query(By.css('.btn-promise'));
+        btnDe.triggerEventHandler('click', null);
+
+        tick();
+
+        fixture.detectChanges();
+        const rtaDe = fixture.debugElement.query(By.css('.rta'));
+
+        expect(rtaDe.nativeElement.textContent).toEqual(mockData);
+        expect(valueServices.getPromiseValue).toHaveBeenCalled();
+        expect(component.rta).toEqual(mockData);
+
+      }
+    ));
 
   });
 
