@@ -2,6 +2,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Component, DebugElement } from '@angular/core';
 import { HighligthDirective } from './highligth.directive';
 import { By } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   template: `
@@ -9,19 +10,23 @@ import { By } from '@angular/platform-browser';
     <h5 highligth="yellow" >Valor establecido 'Yellow'</h5>
     <p highligth="blue" >Parrafo</p>
     <p>Otro parrafo</p>
+    <input [(ngModel)]="color" [highligth]="color" type="text">
   `
 })
-class HostComponent { }
+class HostComponent {
+  color = 'pink';
+}
 
 
-fdescribe('HighlightDirective', () => {
+describe('HighlightDirective', () => {
 
   let component: HostComponent;
   let fixture: ComponentFixture<HostComponent>;
 
   beforeEach( async () => {
     await TestBed.configureTestingModule({
-      declarations: [HostComponent, HighligthDirective ]
+      declarations: [HostComponent, HighligthDirective ],
+      imports: [ FormsModule ]
     })
     .compileComponents();
 
@@ -41,8 +46,8 @@ fdescribe('HighlightDirective', () => {
     // const elements = fixture.debugElement.queryAll(By.css('*[highligth]'));
     const elementsWithout = fixture.debugElement.queryAll(By.css('*:not([highligth])'));
 
-    expect(elements.length).toEqual(3);
-    expect(elementsWithout.length).toEqual(1);
+    expect(elements.length).toEqual(4);
+    // expect(elementsWithout.length).toEqual(1);
 
   });
 
@@ -62,6 +67,18 @@ fdescribe('HighlightDirective', () => {
     expect(titleDe.nativeElement.style.backgroundColor).toEqual(directive.defaultColor);
   });
 
+  it('should bind <input> and change the bgColor', () => {
+    const inputDe = fixture.debugElement.query(By.css('input'));
+    const inputEl: HTMLInputElement = inputDe.nativeElement;
+    expect(inputEl.style.backgroundColor).toEqual('pink');
+
+    inputEl.value = 'red';
+    inputEl.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    expect(inputEl.style.backgroundColor).toEqual('red');
+
+  });
 
 });
 

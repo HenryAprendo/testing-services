@@ -14,6 +14,7 @@ import { ProductComponent } from './components/product/product.component';
 import { OthersComponent } from './components/others/others.component';
 import { HighligthDirective } from './directives/highligth.directive';
 import { FormsModule } from '@angular/forms';
+import { ReversePipe } from './pipes/reverse.pipe';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { FormsModule } from '@angular/forms';
     PeopleComponent,
     ProductComponent,
     OthersComponent,
-    HighligthDirective
+    HighligthDirective,
+    ReversePipe
   ],
   imports: [
     BrowserModule,
